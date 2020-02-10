@@ -17,7 +17,7 @@ public class InventoryTest {
         table[6] = inventory.getItem("00006");
 
         for (final Object[] row : table) {
-            System.out.format("%-15s%-15s%-15s\n", row);
+            System.out.format("%-10s %-30s %-20s %-25s\n", row);
         }
     }
 }
