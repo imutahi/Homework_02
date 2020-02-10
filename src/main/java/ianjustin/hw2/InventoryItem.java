@@ -1,6 +1,7 @@
 package ianjustin.hw2;
 
 import java.util.*;
+import com.google.gson.Gson;
 
 /**
 * Inventory class uses calls a method to store list of inventory.
@@ -17,7 +18,7 @@ public class InventoryItem {
     private Integer quantity;
       
    /**
-   * Instantiates a new list and populates with specified values.
+   * Instantiates a new list item and populates with specified values.
    */
    public InventoryItem(String id, String description, String price, int quantity) {
        this.id = id;
@@ -33,5 +34,9 @@ public class InventoryItem {
    public String[] getValues() {
       return new String[] {this.id, this.description, this.price, this.quantity.toString()};
    }
+   
+   public String getJson() {
+       Gson gson = new Gson();
+       return gson.toJson(this);
+   }
 }
-  
