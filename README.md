@@ -1,5 +1,10 @@
 UDP Inventory Query
 ===================
+Authors:
+--------
+- Ian Mutahi
+- Justin Huffman
+
 How to Build:
 -------------
 1. Compile: `gradle build`
