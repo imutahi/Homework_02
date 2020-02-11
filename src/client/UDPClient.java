@@ -5,6 +5,7 @@ package ianjustin.hw2;
 import java.io.*;
 import java.net.*;
 import java.sql.Timestamp;
+import java.util.*;
 import com.google.gson.Gson;
 
 /**
@@ -68,7 +69,7 @@ public class UDPClient {
         public void startClient() {
                 System.out.println("Connection started...\n");
                 // Send initial request
-                udpPacketRequest = new DatagramPacket(bufferQuery, bufferQuery.length, address, 5678);
+                udpPacketRequest = new DatagramPacket(bufferQuery, bufferQuery.length, address, 5140);
                 try {udpSocket.send(udpPacketRequest);} 
                 catch (IOException e) {e.printStackTrace();}
                 // Get the initial inventory table
@@ -82,7 +83,7 @@ public class UDPClient {
                     while ((msgFromUser = systemInput.readLine()) != null) {
                         // send request for item details
                         bufferQuery = msgFromUser.getBytes();
-                        udpPacketRequest = new DatagramPacket(bufferQuery, bufferQuery.length, address, 5678);
+                        udpPacketRequest = new DatagramPacket(bufferQuery, bufferQuery.length, address, 5140);
                         requestTime = new Timestamp(System.currentTimeMillis());
                         udpSocket.send(udpPacketRequest);
                         // get the response
@@ -92,7 +93,7 @@ public class UDPClient {
                         long elapsedTime = responseTime.getTime() - requestTime.getTime();
                         // display the response
                         msgFromServer = new String(udpPacketResponse.getData(), 0, udpPacketResponse.getLength());
-                        System.out.println("\nResponse: \n" + msgFromServer + "\nRTT of Query: " + elapsedTime + " msec\n");
+                        printMsg(msgFromServer,elapsedTime);
                         // the exit option for the user
                         if (msgFromUser.equals("exit")) {
                             System.out.println("Connection closing...");
@@ -102,5 +103,25 @@ public class UDPClient {
                     }
                 } catch (IOException e) {e.printStackTrace();}
                 udpSocket.close();
+        }
+
+        public void printMsg(String msgFromServer, Long elapsedTime) {
+            Gson gson = new Gson();
+            InventoryItem item = gson.fromJson(msgFromServer,InventoryItem.class);
+
+            final Object[][] table = new String[2][]; 
+            table[0] = new String[] {"Item ID","Item Description","Unit Price","Inventory","RTT"};
+            List<String> values = new ArrayList<String>();
+            for (String value : item.getValues()) {
+                values.add(value);
+            }
+            values.add(elapsedTime.toString()+"ms");
+            Object[] objValues = values.toArray();
+            String[] strValues = Arrays.copyOf(objValues,objValues.length,String[].class);
+            table[1] = strValues;
+
+            for (final Object[] row : table) {
+                System.out.format("%-10s %-30s %-20s %-10s %-10s\n", row);
+            }
         }
 }
