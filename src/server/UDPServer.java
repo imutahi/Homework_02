@@ -1,3 +1,5 @@
+// Justin Huffman 
+// Ian Mutahi
 package ianjustin.hw2;
 
 import java.io.*;
@@ -6,31 +8,29 @@ import java.net.*;
 
 public class UDPServer {
   
-    // The resource list of computers.
+    
     private static InventoryList inventoryList;
-    // The udp server socket.
     private DatagramSocket udpServerSocket;
+    // The udp server socket.
+    private DatagramPacket udpPacketIN, udpPacketOUT;
     // udpPacketIN is the packet received from client
     // udpPacketOUT is the packet sent to the server
-    private DatagramPacket udpPacketIN, udpPacketOUT;
-    // The messages sent to and received from the client
     private String msgFromClient, msgToClient;
-    // Maintain connection?
+    // The messages sent to and received from the client
     private boolean morePackets;
-    // Buffer for receiving messages
     private byte[] buffIn;
-    // Buffer for sending messages
+    // Buffer for receiving messages
     private byte[] buffOut;
-
+    // Buffer for sending messages
     /**
-    * The main method creates a new UDP server.
+    * This main method creates a new UDP server.
     */
     public static void main(String[] args) {
        new UDPServer();
     }
 
     /**
-    * Instantiates a new UDP server and initializes variables.
+    * This then Instantiates a new UDP server and begins to initialize variables.
     */
     public UDPServer() {
 
@@ -54,18 +54,18 @@ public class UDPServer {
 
     public void startServer() {
 
-        System.out.println("\nServer started...");
-        System.out.println("Press 'control+c' at any time to close the server\n");
+        System.out.println("\nServer Started!...");
+        System.out.println("Press 'Control+C' at any time to close the server\n");
 
         while (morePackets) {
 
             try {
-                // Receive UDP packet from client
+                // To Receive the UDP packet from client
                 udpPacketIN = new DatagramPacket(buffIn, buffIn.length);
                 udpServerSocket.receive(udpPacketIN);
                 msgFromClient = new String(udpPacketIN.getData(), 0, udpPacketIN.getLength());
                 System.out.println("New request from " + udpPacketIN.getSocketAddress() +": '" + msgFromClient +"' \n");
-                // Use client msg to decide what to do
+                // Uses the clients message to decide what to do
                 if (msgFromClient.equals("initialize")) {
 
                     System.out.println("Client: " + udpPacketIN.getSocketAddress() + " connected.\n");
@@ -73,12 +73,12 @@ public class UDPServer {
 
                 } else if (msgFromClient.equals("exit")) {
                     System.out.println("Client: " + udpPacketIN.getSocketAddress() + " disconnected.\n");
-                } else { // compare client input against item id's in Inventory
+                } else { // compare client input against the Item ID's in Inventory
                     msgToClient = inventoryList.getItem(msgFromClient).toJson();
                     System.out.println("Response to "+ udpPacketIN.getSocketAddress() +": \n"+ msgToClient +" \n\n");
                 }
 
-                // send the response to the client at address and port
+                // send the response to the client at the address and  the port
                 InetAddress address = udpPacketIN.getAddress();
                 int port = udpPacketIN.getPort();
                 buffOut = msgToClient.getBytes();
@@ -89,7 +89,7 @@ public class UDPServer {
                 e.printStackTrace();
                 morePackets = false;
             }
-        }//end while
+        }
         udpServerSocket.close();
-    }//end startServer
-}//end UDPServer
+    }
+}
