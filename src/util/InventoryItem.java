@@ -41,6 +41,10 @@ public class InventoryItem {
        return this.id;
    }
 
+   public String getDescription() {
+       return this.description;
+   }
+
    public String[] getValues() {
       return new String[] {this.id, this.description, this.price, this.quantity.toString()};
    }

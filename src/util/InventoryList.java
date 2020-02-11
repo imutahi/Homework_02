@@ -32,4 +32,16 @@ public class InventoryList {
        }
        return new InventoryItem();
    }
+
+   public String toString() {
+       String headers = "Item ID   Item Description\n";
+       String body = "";
+       for (InventoryItem item : itemList) {
+           body += item.getId();
+           body += "    ";
+           body += item.getDescription();
+           body += "\n";
+       }
+       return headers + body;
+   }
 }

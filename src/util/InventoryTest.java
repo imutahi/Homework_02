@@ -17,9 +17,14 @@ public class InventoryTest {
         table[5] = inventory.getItem("00005").getValues();
         table[6] = inventory.getItem("00006").getValues();
 
+        System.out.println("");
         for (final Object[] row : table) {
             System.out.format("%-10s %-30s %-20s %-25s\n", row);
         }
+
+        System.out.println("");
+
+        System.out.println(inventory.toString());
 
         System.out.println("");
 
