@@ -69,7 +69,7 @@ public class UDPClient {
         public void startClient() {
                 System.out.println("Connection started...\n");
                 // Send initial request
-                udpPacketRequest = new DatagramPacket(bufferQuery, bufferQuery.length, address, 5140);
+                udpPacketRequest = new DatagramPacket(bufferQuery, bufferQuery.length, address, 5230);
                 try {udpSocket.send(udpPacketRequest);} 
                 catch (IOException e) {e.printStackTrace();}
                 // Get the initial inventory table
@@ -83,7 +83,7 @@ public class UDPClient {
                     while ((msgFromUser = systemInput.readLine()) != null) {
                         // send request for item details
                         bufferQuery = msgFromUser.getBytes();
-                        udpPacketRequest = new DatagramPacket(bufferQuery, bufferQuery.length, address, 5140);
+                        udpPacketRequest = new DatagramPacket(bufferQuery, bufferQuery.length, address, 5230);
                         requestTime = new Timestamp(System.currentTimeMillis());
                         udpSocket.send(udpPacketRequest);
                         // get the response
