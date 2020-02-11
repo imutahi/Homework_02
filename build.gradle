@@ -1,13 +1,41 @@
-apply plugin: 'java'
-
-apply plugin: 'application'
-
-mainClassName = 'ianjustin/hw2/InventoryTest'
-
-repositories {
-    mavenCentral()
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'application'
 }
 
-dependencies {
-  implementation 'com.google.code.gson:gson:2.8.6'
+project(':util') {
+    sourceSets {
+        main {
+            java {
+                srcDir '../src'
+                include 'util/**'
+            }
+        }
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        implementation 'com.google.code.gson:gson:2.8.6'
+    }
+    mainClassName = 'ianjustin/hw2/InventoryTest'
 }
+
+project(':server') {
+    sourceSets {
+        main {
+            java {
+                srcDir '../src'
+                include 'server/**'
+            }
+        }
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        compile project(':util')
+    }
+    mainClassName = 'ianjustin/hw2/UDPServer'
+}
+
