@@ -1,3 +1,5 @@
+// Ian Mutahi 
+// Justin Huffman
 package ianjustin.hw2;
 
 import java.io.*;
@@ -10,33 +12,34 @@ import com.google.gson.Gson;
  */
 public class UDPClient {
         
-        // UDP socket for client/server communication
+        // This Class is tailored for client/server communication
         private DatagramSocket udpSocket;
         // Input from user command line
         private BufferedReader systemInput;
-        // Messages befing sent from server and user
+        // Messages are sent from the server and user
         private String msgFromServer, msgFromUser;
-        // Address of the server to connect to
+        // Address o the server to connect with the User
         private InetAddress address;
-        // Message buffer for sending messages to server
+        // Buffer for sending messages to server// Address o the server to connect with the User
         private byte[] bufferQuery;
-        // udpPacketRequest is packet being sent to server 
-        // udpPacketResponse is packet being received from server
+        // Buffer for sending messages to server
         private DatagramPacket udpPacketRequest, udpPacketResponse;
-        // The message buffer for receiving messages from server
+        // udpPacketRequest is the packet that is sent to server 
+        // udpPacketResponse is packet that is received from server
+        // Message buffer for receiving messages from server
         private byte[] bufferReply;
-        // Times used to calculate elapsed time
+        // Message buffer for receiving messages from server
         private Timestamp requestTime, responseTime;
-
+        // used to calculate elapsed time
         /**
-         * main method creates a new UDPClient.
+         * The main method creates a new UDPClient.
          */
         public static void main(String[] args) {
                 new UDPClient();
         }
 
         /**
-         * Instantiates a new UDP client and prompts for a server address. 
+         * This Instantiates a new UDP client and prompts for a server address. 
          */
         public UDPClient() {
                 // Create an UDPSocket for client/server communication
@@ -53,14 +56,14 @@ public class UDPClient {
                 try {address = InetAddress.getByName(systemInput.readLine());} 
                 catch (UnknownHostException e) {e.printStackTrace();} 
                 catch (IOException e) {e.printStackTrace();}
-                // Send packet containting 'initialize' to let server know a new client is connecting
+                // Send packet that contains 'initialize' to let the server know that a new client is trying to connect"
                 bufferQuery = "initialize".getBytes();
                 bufferReply = new byte[256];
                 startClient();
         }
 
         /**
-         * Start client and allow user to make requests until they type 'exit'.
+         * This Section starts the client and allows the user to make requests until they type 'exit'.
          */
         public void startClient() {
                 System.out.println("Connection started...\n");
@@ -68,13 +71,13 @@ public class UDPClient {
                 udpPacketRequest = new DatagramPacket(bufferQuery, bufferQuery.length, address, 5678);
                 try {udpSocket.send(udpPacketRequest);} 
                 catch (IOException e) {e.printStackTrace();}
-                // Get initial inventory table
+                // Get the initial inventory table
                 udpPacketResponse = new DatagramPacket(bufferReply, bufferReply.length);
                 try {udpSocket.receive(udpPacketResponse);} 
                 catch (IOException e) {e.printStackTrace();}
                 System.out.println("Items in inventory: ");
                 System.out.println(new String(udpPacketResponse.getData(), 0, udpPacketResponse.getLength()));
-                System.out.println("Please input an id to make a query or 'exit' to close connection");
+                System.out.println("Please input an ID to make a query or 'exit' to close connection");
                 try {
                     while ((msgFromUser = systemInput.readLine()) != null) {
                         // send request for item details
@@ -82,22 +85,22 @@ public class UDPClient {
                         udpPacketRequest = new DatagramPacket(bufferQuery, bufferQuery.length, address, 5678);
                         requestTime = new Timestamp(System.currentTimeMillis());
                         udpSocket.send(udpPacketRequest);
-                        // get response
+                        // get the response
                         udpPacketResponse = new DatagramPacket(bufferReply, bufferReply.length);
                         udpSocket.receive(udpPacketResponse);
                         responseTime = new Timestamp(System.currentTimeMillis());
                         long elapsedTime = responseTime.getTime() - requestTime.getTime();
-                        // display response
+                        // display the response
                         msgFromServer = new String(udpPacketResponse.getData(), 0, udpPacketResponse.getLength());
                         System.out.println("\nResponse: \n" + msgFromServer + "\nRTT of Query: " + elapsedTime + " msec\n");
-                        // exit option for user
+                        // the exit option for the user
                         if (msgFromUser.equals("exit")) {
                             System.out.println("Connection closing...");
                             break;
                         }
-                        System.out.println("Please input an id to make a query or 'exit' to close connection");
-                    }//end while 
+                        System.out.println("Please input an ID to make a query or 'exit' to close connection");
+                    }
                 } catch (IOException e) {e.printStackTrace();}
                 udpSocket.close();
-        }//end startClient
-}//end UDPClient
+        }
+}
