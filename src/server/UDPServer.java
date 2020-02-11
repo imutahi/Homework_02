@@ -44,7 +44,7 @@ public class UDPServer {
         buffOut = new byte[256];
 
         try {
-           udpServerSocket = new DatagramSocket(5678);
+           udpServerSocket = new DatagramSocket(5140);
         } catch (SocketException e1) {
            System.out.println("Unable to create DatagramSocket.");
            e1.printStackTrace();
@@ -69,7 +69,7 @@ public class UDPServer {
                 if (msgFromClient.equals("initialize")) {
 
                     System.out.println("Client: " + udpPacketIN.getSocketAddress() + " connected.\n");
-                    // msgToClient = inventoryList.toString();
+                    msgToClient = inventoryList.toString();
 
                 } else if (msgFromClient.equals("exit")) {
                     System.out.println("Client: " + udpPacketIN.getSocketAddress() + " disconnected.\n");
