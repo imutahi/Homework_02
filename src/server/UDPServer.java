@@ -44,7 +44,7 @@ public class UDPServer {
         buffOut = new byte[256];
 
         try {
-           udpServerSocket = new DatagramSocket(5140);
+           udpServerSocket = new DatagramSocket(5230);
         } catch (SocketException e1) {
            System.out.println("Unable to create DatagramSocket.");
            e1.printStackTrace();
