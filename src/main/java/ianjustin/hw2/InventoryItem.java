@@ -20,6 +20,16 @@ public class InventoryItem {
    /**
    * Instantiates a new list item and populates with specified values.
    */
+   public InventoryItem() {
+       this.id = null;
+       this.description = null;
+       this.price = null;
+       this.quantity = null;
+   }
+
+   /**
+   * Instantiates a new list item and populates with specified values.
+   */
    public InventoryItem(String id, String description, String price, int quantity) {
        this.id = id;
        this.description = description;
@@ -35,7 +45,7 @@ public class InventoryItem {
       return new String[] {this.id, this.description, this.price, this.quantity.toString()};
    }
    
-   public String getJson() {
+   public String toJson() {
        Gson gson = new Gson();
        return gson.toJson(this);
    }

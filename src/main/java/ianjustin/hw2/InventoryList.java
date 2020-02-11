@@ -24,12 +24,12 @@ public class InventoryList {
        itemList.add(new InventoryItem("00006", "New XPS 12 UltrabookXPS", "1199.99", 178));
    }
 
-   public String[] getItem(String id) {
+   public InventoryItem getItem(String id) {
        for (int i = 0; i < itemList.size(); i++) {
            if (id.equals(itemList.get(i).getId())) {
-               return itemList.get(i).getValues();
+               return itemList.get(i);
            }
        }
-       return new String[] {"Item id not found. Please try another id.\n"};
+       return new InventoryItem();
    }
 }
