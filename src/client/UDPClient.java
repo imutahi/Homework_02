@@ -1,8 +1,9 @@
-//UDPClient.java
+package ianjustin.hw2;
 
 import java.io.*;
 import java.net.*;
 import java.sql.Timestamp;
+import com.google.gson.Gson;
 
 /**
  * UDPClient requests item inventory from a remote server.

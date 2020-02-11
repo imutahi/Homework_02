@@ -21,6 +21,25 @@ project(':util') {
     mainClassName = 'ianjustin/hw2/InventoryTest'
 }
 
+project(':client') {
+    sourceSets {
+        main {
+            java {
+                srcDir '../src'
+                include 'client/**'
+            }
+        }
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        compile project(':util')
+        implementation 'com.google.code.gson:gson:2.8.6'
+    }
+    mainClassName = 'ianjustin/hw2/UDPClient'
+}
+
 project(':server') {
     sourceSets {
         main {
